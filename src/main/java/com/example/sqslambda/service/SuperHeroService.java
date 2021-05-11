@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Service
 @Slf4j
 public class SuperHeroService {
@@ -16,10 +18,20 @@ public class SuperHeroService {
         this.superHeroRepository = superHeroRepository;
     }
 
-    public Mono<String> update(final SuperHero superHero) {
+    /**
+     * Saves the supplied entity into the data store
+     * @param superHero Entity to save
+     * @return identifier of the saved entity
+     */
+    public Mono<String> save(final SuperHero superHero) {
         log.debug("Updating super hero {} ...", superHero);
-        return superHeroRepository.save(superHero).map(SuperHero::getId);
+        return superHeroRepository.save(superHero)
+                .map(SuperHero::getId)
+                .doOnError(error -> log.error(String.format("Error encountered while saving '%s' into the database!", superHero), error))
+                .retry(3)
+                .doOnSuccess(result -> log.debug("Successfully saved entity with identifier {}", result))
+                .timeout(Duration.ofSeconds(5))
+                .onErrorStop();
     }
-
 
 }

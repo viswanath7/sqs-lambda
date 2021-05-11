@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 public interface SuperHeroRepository extends ReactiveMongoRepository<SuperHero, String> {
 
     @Query("{'name':?0}")
-    Mono<SuperHero> findByNameContains(final String name);
+    Mono<SuperHero> findByName(final String name);
 }
