@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    008859fc-bfa4-45f6-8575-a87abd056bf8:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 390
+        'y': 220
+      z: 0
+      embeds: []
+      dependson:
+        - d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
+        - 583e35ff-6619-4b4f-a5d9-fb913f1c898c
+    d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 598.0104064941406
+        'y': 150.01388549804688
+      z: 0
+      embeds: []
+    f0d793d9-821c-45dc-8ee6-69560eb85d1b:
+      source:
+        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
+        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
+        port: 'AWS::DependencyLink-*'
+      target:
+        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
+      z: 2
+    5ebb9600-0cb2-4b4c-bb29-5690878b7d57:
+      source:
+        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
+        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
+        port: 'AWS::DependencyLink-*'
+      target:
+        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
+      z: 2
+    9a969552-2f52-4598-9204-be20be6dc0b5:
+      source:
+        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
+        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
+        port: 'AWS::DependencyLink-*'
+      target:
+        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
+      z: 2
+Resources:
+  MyLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: viswanath-test-bucket
+        S3Key: sqs-lambda-0.0.1-SNAPSHOT-aws.jar
+      Description: Function that persists the sqs event into mongo db
+      FunctionName: MySQSMongoLambdaFunction
+      Handler: >-
+        org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+      Role: 'arn:aws:iam::191652197757:role/lambda-full-access'
+      Runtime: java11
+      MemorySize: 1024
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
+    DependsOn:
+      - MySQSQueue
+  MySQSQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: MySQSQueue
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f

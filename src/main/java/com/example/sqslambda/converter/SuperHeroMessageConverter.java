@@ -38,6 +38,7 @@ public class SuperHeroMessageConverter extends AbstractMessageConverter {
     }
 
     private Optional<String> extractBody(@NonNull final String sqsJSONPayload) {
+        log.debug("Extract the value of 'body' property of first 'Record' from \n {}", sqsJSONPayload);
         try {
             return Optional.ofNullable(JsonPath.parse(sqsJSONPayload).read("$['Records'][0]['body']", String.class));
         } catch (PathNotFoundException pathNotFoundException) {

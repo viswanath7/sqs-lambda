@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
-import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
@@ -21,11 +20,12 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public Function<SuperHero, Mono<String>> handleEntity(final SuperHeroService superHeroService) {
+    public Function<SuperHero, String> handleEntity(final SuperHeroService superHeroService) {
         return superHero -> {
             log.debug("Imperative function received a super-hero message : {}", superHero);
             // Acknowledgement that the message is processed!
-            return superHeroService.save(superHero);
+            // superHeroService.save(superHero);
+            return superHero.getId();
         };
     }
 
