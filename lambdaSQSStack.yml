@@ -22,30 +22,15 @@ Metadata:
         'y': 150.01388549804688
       z: 0
       embeds: []
-    f0d793d9-821c-45dc-8ee6-69560eb85d1b:
-      source:
-        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
-        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
-        port: 'AWS::DependencyLink-*'
-      target:
-        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
-      z: 2
-    5ebb9600-0cb2-4b4c-bb29-5690878b7d57:
-      source:
-        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
-        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
-        port: 'AWS::DependencyLink-*'
-      target:
-        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
-      z: 2
-    9a969552-2f52-4598-9204-be20be6dc0b5:
-      source:
-        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
-        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
-        port: 'AWS::DependencyLink-*'
-      target:
-        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
-      z: 2
+    583e35ff-6619-4b4f-a5d9-fb913f1c898c:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': 240
+      z: 0
+      embeds: []
 Resources:
   MyLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -60,6 +45,13 @@ Resources:
       Role: 'arn:aws:iam::191652197757:role/lambda-full-access'
       Runtime: java11
       MemorySize: 1024
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-47ab5323
+        SubnetIds:
+          - subnet-cc8e1895
+          - subnet-bce894cb
+          - subnet-29ce9a4c
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 008859fc-bfa4-45f6-8575-a87abd056bf8
