@@ -60,7 +60,7 @@ Resources:
   MySQSQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
-      QueueName: MySQSQueue
+      QueueName: test_queue
     Metadata:
       'AWS::CloudFormation::Designer':
         id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f

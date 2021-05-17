@@ -31,7 +31,7 @@ public class ApplicationConfiguration {
                 return superHeroService.save(superHero)
                         .doOnSuccess(identifier -> log.debug("Successfully persisted superhero with identifier {}", identifier))
                         .toFuture()
-                        .get(5, TimeUnit.SECONDS);
+                        .get(10, TimeUnit.SECONDS);
             } catch (InterruptedException|ExecutionException|TimeoutException ex) {
                 log.error(String.format("Failed to save super hero entity %s", superHero), ex);
                 return "";

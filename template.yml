@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+# Properties that are common to all serverless functions, APIs, and simple tables.
+# This section is unique to AWS SAM. There isn't a corresponding section in AWS CloudFormation templates.
+Globals:
+  Function:
+    Runtime: java11
+    Timeout: 180
+
+Description:
+  Serverless application that processes messages on an SQS queue with Lambda function and persists the result into MongoDB
+
+Resources:
+  MySQSMongoLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./target/sqs-lambda-0.0.1-SNAPSHOT-aws.jar
+      Description: Function that persists the sqs event into mongo db
+      FunctionName: MySQSMongoLambdaFunction
+      Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+      MemorySize: 1024
+      PackageType: Zip
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt MySqsQueue.Arn
+            BatchSize: 1
+            Enabled: false
+    DependsOn:
+      - MySQSQueue
+  MySqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: test_queue
