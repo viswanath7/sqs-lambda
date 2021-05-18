@@ -53,7 +53,6 @@ Start the services defined in the [docker-compose.yml](./docker-compose.yml) by 
 ```
 [LocalStack](https://github.com/localstack/localstack) provides an easy-to-use mock framework for developing Cloud applications. This means, can test AWS cloud resources on local machine.
 
-
 Once the services are started, localstack can be verified by loading its [health-check URL](http://localhost:4566/health).
 
 ```
@@ -108,11 +107,7 @@ server: hypercorn-h11
 }
 ```
 
-Docker compose services can be shut down gracefully by issuing the following command from the project's root directory 
-
-```
-❯ docker-compose down --remove-orphans --rmi local -v
-```
+Mongo express; a web based administrative interface of MongoDB can be accessed on [http://localhost:8081](http://localhost:8081)
 
 ### Run and debug the application locally using SAM and local stack
 
@@ -211,8 +206,77 @@ Docker compose services can be shut down gracefully by issuing the following com
   ```
 - View the log file `./target/sam-local.log`  
 
+The content of logs must look similar to one shown below. 
+
+```
+START RequestId: e32bdc32-89b8-47f5-a82c-7b435552d8ae Version: $LATEST
+09:18:34,752 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+09:18:34,755 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+09:18:34,757 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/var/task/logback.xml]
+09:18:35,021 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+09:18:35,034 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+09:18:35,069 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONSOLE]
+09:18:35,277 |-WARN in ch.qos.logback.core.ConsoleAppender[CONSOLE] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+09:18:35,277 |-WARN in ch.qos.logback.core.ConsoleAppender[CONSOLE] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+09:18:35,277 |-WARN in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+09:18:35,281 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.example] to DEBUG
+09:18:35,281 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [com.example] to false
+09:18:35,281 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONSOLE] to Logger[com.example]
+09:18:35,283 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ERROR
+09:18:35,283 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONSOLE] to Logger[ROOT]
+09:18:35,283 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+09:18:35,286 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@2d6e8792 - Registering current configuration as safe fallback point
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                        
+
+09:18:42.957 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Converting an incoming message to an object of type SuperHero ...
+09:18:42.963 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Header name: aws-context, Header value lambdainternal.api.LambdaContext@56a4479a
+09:18:42.966 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Header name: id, Header value f8980984-cc2b-2330-f025-3ff80da7f63d
+09:18:42.966 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Header name: timestamp, Header value 1621329522951
+09:18:42.967 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Extract the value of 'body' property of first 'Record' from 
+ {
+  "Records": [
+    {
+      "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
+      "receiptHandle": "MessageReceiptHandle",
+      "body": "{\"id\":\"one\",\"name\":\"batman\",\"powers\":[\"brilliant\"]}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1523232000000",
+        "SenderId": "123456789012",
+        "ApproximateFirstReceiveTimestamp": "1523232000001"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "F84E8B888849FE2AF9D6AD78F26E4811",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:us-east-1:123456789012:MyQueue",
+      "awsRegion": "eu-west-1"
+    }
+  ]
+}
+09:18:43.154 [main] DEBUG c.e.s.c.SuperHeroMessageConverter - Converting JSON '{"id":"one","name":"batman","powers":["brilliant"]}' to an entity of type SuperHero
+09:18:43.275 [main] DEBUG c.e.s.c.ApplicationConfiguration - Imperative function received a super-hero message : SuperHero(name=batman, powers=[brilliant])
+09:18:43.290 [main] DEBUG c.e.s.service.SuperHeroService - Updating super hero SuperHero(name=batman, powers=[brilliant]) ...
+09:18:43.953 [Thread-5] DEBUG c.e.s.c.ApplicationConfiguration - Successfully persisted superhero with identifier one
+END RequestId: e32bdc32-89b8-47f5-a82c-7b435552d8ae
+REPORT RequestId: e32bdc32-89b8-47f5-a82c-7b435552d8ae	Init Duration: 0.22 ms	Duration: 9558.50 ms	Billed Duration: 9600 ms	Memory Size: 1024 MB	Max Memory Used: 1024 MB	
+"one"
+```
+
 #### Clean-up  
 - Delete the queue given its URL
 ```
   ❯ aws --endpoint-url=http://localhost:4566 sqs delete-queue --queue-url http://localhost:4566/000000000000/test_queue
+```
+- Docker compose services can be shut down gracefully by issuing the following command from the project's root directory
+
+```
+❯ docker-compose down --remove-orphans --rmi local -v
 ```
