@@ -1,4 +1,8 @@
-### Pre-requisite 
+# Objective
+
+The objective is to establish a serverless application where in the lambda function is triggered by an event in SQS queue. Upon processing the event, a document is saved into the database.
+
+## Pre-requisite for local run
 
 - Install and configure [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 - Install Serverless Application Model i.e. [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)
@@ -44,7 +48,7 @@ SAM CLI, version 1.23.0
 Docker version 20.10.6, build 370c289
 ```
 
-### Start MongoDB and localstack services 
+## Start MongoDB and localstack services for local run
 
 Start the services defined in the [docker-compose.yml](./docker-compose.yml) by issuing the following command from project's root directory 
 
@@ -52,6 +56,8 @@ Start the services defined in the [docker-compose.yml](./docker-compose.yml) by 
 ❯ docker-compose up --always-recreate-deps --remove-orphans --build
 ```
 [LocalStack](https://github.com/localstack/localstack) provides an easy-to-use mock framework for developing Cloud applications. This means, can test AWS cloud resources on local machine.
+
+![LocalStack](./doc/img/localstack.png)
 
 Once the services are started, localstack can be verified by loading its [health-check URL](http://localhost:4566/health).
 
@@ -108,6 +114,8 @@ server: hypercorn-h11
 ```
 
 Mongo express; a web based administrative interface of MongoDB can be accessed on [http://localhost:8081](http://localhost:8081)
+
+![Mongo-express](./doc/img/mongo-express.png)
 
 ### Run and debug the application locally using SAM and local stack
 
@@ -270,6 +278,10 @@ REPORT RequestId: e32bdc32-89b8-47f5-a82c-7b435552d8ae	Init Duration: 0.22 ms	Du
 "one"
 ```
 
+- Result in the database
+
+![Result via mongodb compass](./doc/img/mongo-compass-result.png)
+
 #### Clean-up  
 - Delete the queue given its URL
 ```
@@ -280,3 +292,25 @@ REPORT RequestId: e32bdc32-89b8-47f5-a82c-7b435552d8ae	Init Duration: 0.22 ms	Du
 ```
 ❯ docker-compose down --remove-orphans --rmi local -v
 ```
+
+## Deployment in AWS using cloud formation template 
+
+The [template file for cloud formation](./cloud-formation-lambdaSQSStack.yml) can be used to deploy the serverless application in cloud formation. Images shown below guides one through the process.
+
+1. Create a new stack with the [supplied template file](./cloud-formation-lambdaSQSStack.yml) 
+
+![lambdaSQSStack](./doc/img/cloud-formation-create-stack.png)
+
+2. View the lambda application once successfully created
+  
+  - Overview
+
+  ![overview](./doc/img/lambda-function-overview.png)
+
+  - Properties of the function
+
+  ![lambdaSQSStack](./doc/img/lambda-function-1.png)
+
+  - Serverless application
+
+  ![lambdaSQSStack](./doc/img/lambda-application.png)
