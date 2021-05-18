@@ -2,6 +2,8 @@
 
 The objective is to establish a serverless application where in the lambda function is triggered by an event in SQS queue. Upon processing the event, a document is saved into the database.
 
+[![sqs-lambda-master Actions Status](https://github.com/viswanath7/sqs-lambda/actions/workflows/maven.yml/badge.svg)](https://github.com/viswanath7/sqs-lambda/actions)
+
 ## Pre-requisite for local run
 
 - Install and configure [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
