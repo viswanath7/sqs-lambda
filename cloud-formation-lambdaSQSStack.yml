@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    008859fc-bfa4-45f6-8575-a87abd056bf8:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 390
+        'y': 220
+      z: 0
+      embeds: []
+      dependson:
+        - d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
+        - 583e35ff-6619-4b4f-a5d9-fb913f1c898c
+    d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 598.0104064941406
+        'y': 150.01388549804688
+      z: 0
+      embeds: []
+    583e35ff-6619-4b4f-a5d9-fb913f1c898c:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': 240
+      z: 0
+      embeds: []
+Resources:
+  MyLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: viswanath-test-bucket
+        S3Key: sqs-lambda-0.0.1-SNAPSHOT-aws.jar
+      Description: Function that persists the sqs event into mongo db
+      FunctionName: MySQSMongoLambdaFunction
+      Handler: >-
+        org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+      Role: 'arn:aws:iam::191652197757:role/lambda-full-access'
+      Runtime: java11
+      MemorySize: 1024
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-47ab5323
+        SubnetIds:
+          - subnet-cc8e1895
+          - subnet-bce894cb
+          - subnet-29ce9a4c
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 008859fc-bfa4-45f6-8575-a87abd056bf8
+    DependsOn:
+      - MySQSQueue
+  MySQSQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: test_queue
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d3b5da1a-7a9d-4179-ac5a-440c8e44ea3f
